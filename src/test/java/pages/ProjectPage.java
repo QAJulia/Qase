@@ -45,7 +45,6 @@ public class ProjectPage extends BasePage {
         List<WebElement> trash = driver.findElements(TEST_SUITE_NAME_TITLE);
         for (WebElement element : trash) {
             String testSuiteName = element.getText();
-            log.info("Existing suite: " + testSuiteName);
             if (testSuiteName.equals(name)) {
                 WebElement trashBinIconElement = driver.findElement(By.xpath(String.format(trashBinButton, name)));
                 Actions actions = new Actions(driver);
@@ -137,6 +136,8 @@ public class ProjectPage extends BasePage {
             String testCaseName = driver.findElement(TEST_CASE).getText();
             if (testCaseName.equals(testCase)) {
                 condition = true;
+                log.info("Test case " + testCase +" is created");
+                break;
             }
         }
         return condition;
@@ -159,12 +160,10 @@ public class ProjectPage extends BasePage {
 
     @Step("Validation that the case \"{testCase}\" does not exist anymore")
     public ProjectPage validateThatCaseDoesNotExist(String testCase) {
-
         List<WebElement> testCases = driver.findElements(TEST_CASE);
         int count = 0;
         for (WebElement element : testCases) {
             String testCaseName = element.getText();
-            log.info("Test case: " + testCaseName);
             if (testCaseName.equals(testCase)) {
                 log.error(String.format("Test case \"%s\" still exists", testCase));
                 count++;
@@ -198,6 +197,8 @@ public class ProjectPage extends BasePage {
             String testSuiteName = driver.findElement(TEST_SUITE_NAME_TITLE).getText();
             if (testSuiteName.equals(testSuite)) {
                 condition = true;
+                log.info("Test suite " + testSuite +" is created");
+                break;
             }
         }
         return condition;
@@ -205,12 +206,10 @@ public class ProjectPage extends BasePage {
 
     @Step("Validation that the test suite \"{testSuite}\" does not exist anymore")
     public ProjectPage validateThatSuiteDoesNotExist(String testSuite) {
-
         List<WebElement> trash = driver.findElements(TEST_SUITE_NAME_TITLE);
         int count = 0;
         for (WebElement element : trash) {
             String testSuiteName = element.getText();
-            log.info("Test suite: " + testSuiteName);
             if (testSuiteName.equals(testSuite)) {
                 log.error(String.format("Test suite '%s' still exists", testSuite));
                 count++;

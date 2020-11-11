@@ -6,6 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import models.Project;
 import models.api.ProjectResult;
 import org.testng.annotations.Test;
+import utils.Retry;
 
 import static org.testng.Assert.assertEquals;
 
@@ -27,12 +28,13 @@ public class ProjectAPITest {
         assertEquals(result.getResult(), expectedResult);
     }
 
-    @Test
+    @Test(retryAnalyzer = Retry.class)
     public void createNewProject() {
         Project newProject = Project.builder()
                 .name(faker.overwatch().hero())
-                .code(faker.cat().name().toUpperCase())
+                .code(faker.food().ingredient().replace(" ", "").toUpperCase())
                 .build();
+        log.info(String.format("New project: %s. Code of this project: %s", newProject.getName(), newProject.getCode()));
 
         String code = projectAdapter
                 .post(newProject);
